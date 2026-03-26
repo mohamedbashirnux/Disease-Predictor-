@@ -1,0 +1,880 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Disease Prediction System</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            min-height: 100vh;
+            display: flex;
+            justify-content: center;
+            align-items: flex-start;
+            padding: 20px;
+        }
+
+        .container {
+            background: white;
+            border-radius: 20px;
+            box-shadow: 0 20px 60px rgba(0, 0, 0, 0.3);
+            max-width: 980px;
+            width: 100%;
+            padding: 40px;
+            margin-top: 20px;
+        }
+
+        h1 {
+            color: #667eea;
+            text-align: center;
+            margin-bottom: 10px;
+            font-size: 2.5em;
+        }
+
+        .subtitle {
+            text-align: center;
+            color: #666;
+            margin-bottom: 30px;
+            font-size: 1.1em;
+        }
+
+        .layout {
+            display: grid;
+            grid-template-columns: 1.2fr 0.8fr;
+            gap: 24px;
+            align-items: start;
+        }
+        
+        .stats-grid {
+            display: grid;
+            grid-template-columns: repeat(4, minmax(0, 1fr));
+            gap: 12px;
+            margin-bottom: 20px;
+        }
+
+        .stat-card {
+            background: linear-gradient(180deg, #f8f9ff 0%, #ffffff 100%);
+            border: 1px solid #e8ebff;
+            border-radius: 12px;
+            padding: 12px;
+            transition: all 0.3s;
+        }
+
+        .stat-card:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 8px 18px rgba(102, 126, 234, 0.15);
+        }
+
+        #diseaseStatCard:hover {
+            background: linear-gradient(180deg, #e8ebff 0%, #f8f9ff 100%);
+            border-color: #667eea;
+        }
+
+        .stat-title {
+            font-size: 0.85em;
+            color: #566;
+            margin-bottom: 6px;
+        }
+
+        .stat-value {
+            font-size: 1.25em;
+            font-weight: 800;
+            color: #2f3ca8;
+        }
+
+        .symptoms-section {
+            margin-bottom: 30px;
+        }
+
+        .symptoms-section h2 {
+            color: #333;
+            margin-bottom: 15px;
+            font-size: 1.3em;
+        }
+
+        .symptoms-toolbar {
+            display: flex;
+            gap: 10px;
+            align-items: center;
+            margin-bottom: 12px;
+            flex-wrap: wrap;
+        }
+
+        .symptoms-toolbar input[type="text"] {
+            flex: 1;
+            min-width: 220px;
+            padding: 12px 12px;
+            border-radius: 10px;
+            border: 1px solid #dee2e6;
+            background: #f8f9fa;
+            outline: none;
+        }
+
+        .btn {
+            padding: 10px 12px;
+            border-radius: 10px;
+            border: 1px solid #dee2e6;
+            background: white;
+            cursor: pointer;
+            transition: all 0.2s;
+            font-weight: 600;
+        }
+
+        .btn:hover {
+            transform: translateY(-1px);
+            box-shadow: 0 8px 18px rgba(0, 0, 0, 0.08);
+        }
+
+        .panel {
+            background: #ffffff;
+            border: 1px solid #eef0f3;
+            border-radius: 16px;
+            padding: 16px;
+        }
+
+        .symptoms-panel {
+            background: #fbfbfd;
+            border: 1px solid #eef0f3;
+            border-radius: 16px;
+            padding: 14px;
+        }
+
+        .symptoms-scroll {
+            max-height: 360px;
+            overflow: auto;
+            padding-right: 6px;
+        }
+
+        .symptoms-grid {
+            display: grid;
+            grid-template-columns: repeat(2, 1fr);
+            gap: 10px;
+        }
+
+        .symptom-checkbox {
+            display: flex;
+            align-items: center;
+            padding: 12px;
+            background: #f8f9fa;
+            border-radius: 8px;
+            cursor: pointer;
+            transition: all 0.3s;
+            border: 1px solid transparent;
+        }
+
+        .symptom-checkbox:hover {
+            background: #e9ecef;
+            transform: translateY(-2px);
+            border-color: #dde2ff;
+        }
+
+        .symptom-checkbox input[type="checkbox"] {
+            width: 20px;
+            height: 20px;
+            margin-right: 10px;
+            cursor: pointer;
+        }
+
+        .symptom-checkbox label {
+            cursor: pointer;
+            user-select: none;
+            flex: 1;
+        }
+
+        .model-section {
+            margin-bottom: 30px;
+        }
+
+        .model-section h2 {
+            color: #333;
+            margin-bottom: 15px;
+            font-size: 1.3em;
+        }
+
+        .model-options {
+            display: flex;
+            gap: 15px;
+        }
+
+        .model-option {
+            flex: 1;
+            padding: 15px;
+            background: #f8f9fa;
+            border: 2px solid transparent;
+            border-radius: 8px;
+            cursor: pointer;
+            text-align: center;
+            transition: all 0.3s;
+        }
+
+        .model-option:hover {
+            background: #e9ecef;
+        }
+
+        .model-option input[type="radio"] {
+            margin-right: 8px;
+        }
+
+        .model-option input[type="radio"]:checked + label {
+            font-weight: bold;
+        }
+
+        .topk-section {
+            margin-bottom: 25px;
+        }
+
+        .topk-section h2 {
+            color: #333;
+            margin-bottom: 10px;
+            font-size: 1.1em;
+        }
+
+        .topk-section select {
+            width: 100%;
+            padding: 12px;
+            border-radius: 10px;
+            border: 1px solid #dee2e6;
+            background: #f8f9fa;
+            font-size: 1em;
+        }
+
+        .predict-btn {
+            width: 100%;
+            padding: 15px;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+            border: none;
+            border-radius: 10px;
+            font-size: 1.2em;
+            font-weight: bold;
+            cursor: pointer;
+            transition: all 0.3s;
+        }
+
+        .predict-btn:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 10px 20px rgba(102, 126, 234, 0.4);
+        }
+
+        .predict-btn:active {
+            transform: translateY(0);
+        }
+        
+        .compare-toggle {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            margin: 14px 0;
+            background: #f7f8ff;
+            border: 1px solid #e1e5ff;
+            border-radius: 10px;
+            padding: 10px 12px;
+        }
+
+        .result {
+            margin-top: 30px;
+            padding: 25px;
+            border-radius: 10px;
+            display: none;
+            animation: slideIn 0.5s;
+        }
+
+        @keyframes slideIn {
+            from {
+                opacity: 0;
+                transform: translateY(-20px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        .result.success {
+            background: #d4edda;
+            border: 2px solid #28a745;
+        }
+
+        .result.error {
+            background: #f8d7da;
+            border: 2px solid #dc3545;
+        }
+
+        .result h3 {
+            margin-bottom: 10px;
+            font-size: 1.5em;
+        }
+
+        .result p {
+            margin: 5px 0;
+            font-size: 1.1em;
+        }
+
+        .ranked-list {
+            margin-top: 10px;
+            padding-left: 18px;
+        }
+        
+        .compare-grid {
+            margin-top: 12px;
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 10px;
+        }
+
+        .model-card {
+            background: #ffffff;
+            border: 1px solid #e6e9f6;
+            border-radius: 10px;
+            padding: 10px;
+        }
+
+        .badge {
+            display: inline-block;
+            font-size: 0.8em;
+            font-weight: 700;
+            border-radius: 999px;
+            padding: 4px 8px;
+            background: #eef2ff;
+            color: #2f3ca8;
+            margin-bottom: 8px;
+        }
+
+        .muted {
+            color: #666;
+            font-size: 0.95em;
+        }
+
+        .pill {
+            display: inline-block;
+            padding: 6px 10px;
+            border-radius: 999px;
+            background: #f1f3ff;
+            color: #3b49df;
+            font-weight: 700;
+            font-size: 0.9em;
+        }
+
+        .loading {
+            display: none;
+            text-align: center;
+            margin-top: 20px;
+        }
+
+        .spinner {
+            border: 4px solid #f3f3f3;
+            border-top: 4px solid #667eea;
+            border-radius: 50%;
+            width: 40px;
+            height: 40px;
+            animation: spin 1s linear infinite;
+            margin: 0 auto;
+        }
+
+        @keyframes spin {
+            0% { transform: rotate(0deg); }
+            100% { transform: rotate(360deg); }
+        }
+
+        @media (max-width: 900px) {
+            .container { padding: 22px; }
+            .layout { grid-template-columns: 1fr; }
+            .symptoms-scroll { max-height: 320px; }
+            .stats-grid { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+            .compare-grid { grid-template-columns: 1fr; }
+        }
+
+        @media (max-width: 520px) {
+            .symptoms-grid { grid-template-columns: 1fr; }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>🏥 Disease Predictor</h1>
+        <p class="subtitle">Pick symptoms and get ranked predictions</p>
+        
+        <div class="stats-grid">
+            <div class="stat-card" id="diseaseStatCard" style="cursor: pointer;" title="Click to view all diseases">
+                <div class="stat-title">Diseases 📋</div>
+                <div id="statDiseases" class="stat-value">-</div>
+            </div>
+            <div class="stat-card">
+                <div class="stat-title">Symptoms</div>
+                <div id="statSymptoms" class="stat-value">-</div>
+            </div>
+            <div class="stat-card">
+                <div class="stat-title">Models</div>
+                <div id="statModels" class="stat-value">-</div>
+            </div>
+            <div class="stat-card">
+                <div class="stat-title">Best Accuracy</div>
+                <div id="statAccuracy" class="stat-value">-</div>
+            </div>
+        </div>
+
+        <div id="diseasesModal" style="display: none; position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: rgba(0,0,0,0.5); z-index: 1000; overflow: auto;">
+            <div style="background: white; margin: 40px auto; max-width: 900px; border-radius: 20px; padding: 40px; position: relative; box-shadow: 0 20px 60px rgba(0,0,0,0.3);">
+                <button id="btnCloseModal" style="position: absolute; top: 20px; right: 20px; background: #f8f9fa; border: 1px solid #dee2e6; border-radius: 50%; width: 40px; height: 40px; font-size: 24px; cursor: pointer; line-height: 1; transition: all 0.2s;">×</button>
+                <h2 style="color: #667eea; margin-bottom: 10px; font-size: 1.8em;">📋 All Diseases in Database</h2>
+                <p id="diseaseCount" style="color: #666; margin-bottom: 15px; font-size: 1.1em;">Loading diseases...</p>
+                <input id="diseaseSearch" type="text" placeholder="🔍 Search diseases..." style="width: 100%; padding: 12px 16px; border-radius: 10px; border: 1px solid #dee2e6; background: #f8f9fa; font-size: 1em; margin-bottom: 20px; outline: none;" />
+                <div id="diseasesList" style="display: grid; grid-template-columns: repeat(auto-fill, minmax(220px, 1fr)); gap: 10px; max-height: 500px; overflow-y: auto; padding: 10px;"></div>
+            </div>
+        </div>
+
+        <form id="predictionForm">
+            <div class="layout">
+                <div class="symptoms-section symptoms-panel">
+                    <h2>
+                        Select Symptoms
+                        <span id="symptomCount" class="pill" style="margin-left:10px;">0 selected</span>
+                    </h2>
+
+                    <div class="symptoms-toolbar">
+                        <input id="symptomSearch" type="text" placeholder="Search symptoms (e.g. fever, cough, pain)..." autocomplete="off" />
+                        <button id="btnSelectAll" class="btn" type="button">Select all</button>
+                        <button id="btnClear" class="btn" type="button">Clear</button>
+                    </div>
+
+                    <div class="symptoms-scroll">
+                        <div id="symptomsGrid" class="symptoms-grid"></div>
+                    </div>
+
+                    <p id="symptomsHint" class="muted" style="margin-top: 10px;">Loading symptoms from the model...</p>
+                </div>
+
+                <div class="panel">
+                    <div class="model-section">
+                        <h2>Model</h2>
+                        <div class="model-options">
+                            <div class="model-option">
+                                <input type="radio" id="rf" name="model" value="random_forest" checked>
+                                <label for="rf">🌲 Random Forest</label>
+                            </div>
+                            <div class="model-option">
+                                <input type="radio" id="nb" name="model" value="naive_bayes">
+                                <label for="nb">📊 Naive Bayes</label>
+                            </div>
+                        </div>
+                        <p class="muted" style="margin-top:10px;">Tip: Try both models and compare Top‑K.</p>
+                    </div>
+
+                    <div class="topk-section">
+                        <h2>Results</h2>
+                        <select id="topK" name="top_k">
+                            <option value="1">Top 1 (single answer)</option>
+                            <option value="3" selected>Top 3 (recommended)</option>
+                            <option value="5">Top 5 (more options)</option>
+                        </select>
+                    </div>
+                    
+                    <label class="compare-toggle">
+                        <input id="compareMode" type="checkbox" />
+                        <span>Compare both models side-by-side</span>
+                    </label>
+
+                    <button type="submit" class="predict-btn">Predict Disease</button>
+
+                    <div class="loading">
+                        <div class="spinner"></div>
+                        <p>Analyzing symptoms...</p>
+                    </div>
+
+                    <div id="result" class="result"></div>
+                </div>
+            </div>
+        </form>
+    </div>
+
+    <script>
+        const SYMPTOM_EMOJI = {
+            fever: '🌡️',
+            cough: '😷',
+            fatigue: '😴',
+            difficulty_breathing: '🫁',
+            headache: '🤕',
+            sore_throat: '🗣️',
+            runny_nose: '👃',
+            body_ache: '💪',
+            chills: '🥶',
+            nausea: '🤢',
+            vomiting: '🤮',
+            diarrhea: '💩',
+            chest_pain: '💔',
+            loss_of_taste: '👅',
+            loss_of_smell: '👃',
+            muscle_pain: '💪',
+            joint_pain: '🦴',
+            sweating: '💦',
+            rash: '🔴',
+            weight_loss: '⚖️',
+            night_sweats: '🌙',
+            wheezing: '😮‍💨',
+            sneezing: '🤧',
+            increased_thirst: '🥤',
+            frequent_urination: '🚽',
+            blurred_vision: '👓',
+        };
+
+        function titleizeSymptom(symptom) {
+            return symptom
+                .replace(/_/g, ' ')
+                .replace(/\b\w/g, (l) => l.toUpperCase());
+        }
+
+        function escapeHtml(str) {
+            return String(str)
+                .replace(/&/g, '&amp;')
+                .replace(/</g, '&lt;')
+                .replace(/>/g, '&gt;')
+                .replace(/"/g, '&quot;')
+                .replace(/'/g, '&#039;');
+        }
+
+        function updateSelectedCount() {
+            const selected = document.querySelectorAll('input[name="symptoms"]:checked').length;
+            const el = document.getElementById('symptomCount');
+            el.textContent = `${selected} selected`;
+        }
+
+        function wireSymptomControls() {
+            const search = document.getElementById('symptomSearch');
+            const grid = document.getElementById('symptomsGrid');
+            const btnSelectAll = document.getElementById('btnSelectAll');
+            const btnClear = document.getElementById('btnClear');
+
+            const filter = () => {
+                const q = (search.value || '').trim().toLowerCase();
+                const items = grid.querySelectorAll('.symptom-checkbox');
+                items.forEach((item) => {
+                    const label = (item.getAttribute('data-symptom-label') || '').toLowerCase();
+                    const raw = (item.getAttribute('data-symptom-raw') || '').toLowerCase();
+                    const show = q === '' || label.includes(q) || raw.includes(q);
+                    item.style.display = show ? '' : 'none';
+                });
+            };
+
+            search.addEventListener('input', filter);
+
+            btnSelectAll.addEventListener('click', () => {
+                const items = grid.querySelectorAll('.symptom-checkbox');
+                items.forEach((item) => {
+                    if (item.style.display === 'none') return;
+                    const cb = item.querySelector('input[type="checkbox"]');
+                    if (cb) cb.checked = true;
+                });
+                updateSelectedCount();
+            });
+
+            btnClear.addEventListener('click', () => {
+                const cbs = grid.querySelectorAll('input[type="checkbox"]');
+                cbs.forEach((cb) => cb.checked = false);
+                updateSelectedCount();
+            });
+
+            grid.addEventListener('change', (e) => {
+                if (e.target && e.target.matches('input[type="checkbox"][name="symptoms"]')) {
+                    updateSelectedCount();
+                }
+            });
+
+            updateSelectedCount();
+        }
+
+        async function loadSymptomsFromServer() {
+            const grid = document.getElementById('symptomsGrid');
+            const hint = document.getElementById('symptomsHint');
+
+            try {
+                const res = await fetch('/metadata');
+                const data = await res.json();
+                if (!res.ok) throw new Error(data?.error || 'Failed to load metadata');
+
+                const symptoms = Array.isArray(data.symptoms) ? data.symptoms : [];
+                if (symptoms.length === 0) throw new Error('No symptoms found in metadata');
+
+                grid.innerHTML = symptoms.map((s) => {
+                    const emoji = SYMPTOM_EMOJI[s] || '✅';
+                    const label = `${emoji} ${titleizeSymptom(s)}`;
+                    const safeId = `symptom_${s}`;
+                    return `
+                        <div class="symptom-checkbox" data-symptom-raw="${escapeHtml(s)}" data-symptom-label="${escapeHtml(label)}">
+                            <input type="checkbox" id="${escapeHtml(safeId)}" name="symptoms" value="${escapeHtml(s)}">
+                            <label for="${escapeHtml(safeId)}">${escapeHtml(label)}</label>
+                        </div>
+                    `;
+                }).join('');
+
+                hint.textContent = `Loaded ${symptoms.length} symptoms from the model.`;
+                wireSymptomControls();
+                updateSelectedCount();
+            } catch (e) {
+                hint.textContent = `Could not load symptoms. Make sure the API is running and models are trained. (${e.message})`;
+            }
+        }
+        
+        async function loadStatsFromServer() {
+            try {
+                const res = await fetch('/stats');
+                const data = await res.json();
+                if (!res.ok) throw new Error(data?.error || 'Failed to load stats');
+
+                const counts = data.counts || {};
+                document.getElementById('statDiseases').textContent = counts.diseases ?? '-';
+                document.getElementById('statSymptoms').textContent = counts.symptoms ?? '-';
+                document.getElementById('statModels').textContent = counts.models ?? '-';
+
+                const models = data.training_report?.models || {};
+                const rf = Number(models.random_forest?.accuracy || 0);
+                const nb = Number(models.naive_bayes?.accuracy || 0);
+                const best = Math.max(rf, nb);
+                document.getElementById('statAccuracy').textContent = best > 0 ? `${(best * 100).toFixed(2)}%` : '-';
+            } catch (e) {
+                document.getElementById('statDiseases').textContent = '-';
+                document.getElementById('statSymptoms').textContent = '-';
+                document.getElementById('statModels').textContent = '-';
+                document.getElementById('statAccuracy').textContent = '-';
+            }
+        }
+
+        loadSymptomsFromServer();
+        loadStatsFromServer();
+
+        // Diseases modal functionality
+        let allDiseases = [];
+
+        async function loadDiseasesData() {
+            try {
+                const res = await fetch('/metadata');
+                const data = await res.json();
+                if (res.ok && Array.isArray(data.diseases)) {
+                    allDiseases = data.diseases.sort();
+                }
+            } catch (e) {
+                console.error('Failed to load diseases:', e);
+            }
+        }
+
+        function showDiseasesModal() {
+            const modal = document.getElementById('diseasesModal');
+            const list = document.getElementById('diseasesList');
+            const count = document.getElementById('diseaseCount');
+            const searchInput = document.getElementById('diseaseSearch');
+
+            if (allDiseases.length === 0) {
+                count.textContent = 'No diseases loaded yet.';
+                list.innerHTML = '';
+            } else {
+                searchInput.value = '';
+                renderDiseasesList(allDiseases);
+                count.textContent = `Total: ${allDiseases.length} diseases`;
+            }
+
+            modal.style.display = 'block';
+            searchInput.focus();
+        }
+
+        function renderDiseasesList(diseases) {
+            const list = document.getElementById('diseasesList');
+            const count = document.getElementById('diseaseCount');
+
+            if (diseases.length === 0) {
+                list.innerHTML = '<p style="grid-column: 1/-1; text-align: center; color: #999; padding: 40px;">No diseases found matching your search.</p>';
+                count.textContent = `Showing 0 of ${allDiseases.length} diseases`;
+            } else {
+                list.innerHTML = diseases.map((disease, idx) => {
+                    const emoji = getDiseaseEmoji(disease);
+                    return `
+                        <div style="background: #f8f9fa; padding: 12px 16px; border-radius: 8px; border: 1px solid #dee2e6; transition: all 0.2s; cursor: default;">
+                            <span style="font-size: 1.2em;">${emoji}</span>
+                            <span style="margin-left: 8px; font-weight: 500;">${escapeHtml(disease)}</span>
+                        </div>
+                    `;
+                }).join('');
+                
+                if (diseases.length === allDiseases.length) {
+                    count.textContent = `Total: ${allDiseases.length} diseases`;
+                } else {
+                    count.textContent = `Showing ${diseases.length} of ${allDiseases.length} diseases`;
+                }
+            }
+        }
+
+        document.getElementById('diseaseSearch').addEventListener('input', (e) => {
+            const query = e.target.value.toLowerCase().trim();
+            if (query === '') {
+                renderDiseasesList(allDiseases);
+            } else {
+                const filtered = allDiseases.filter(disease => 
+                    disease.toLowerCase().includes(query)
+                );
+                renderDiseasesList(filtered);
+            }
+        });
+
+        function getDiseaseEmoji(disease) {
+            const lower = disease.toLowerCase();
+            if (lower.includes('cancer')) return '🎗️';
+            if (lower.includes('heart')) return '❤️';
+            if (lower.includes('diabetes')) return '💉';
+            if (lower.includes('flu') || lower.includes('cold')) return '🤧';
+            if (lower.includes('covid')) return '😷';
+            if (lower.includes('hiv') || lower.includes('aids')) return '🔬';
+            if (lower.includes('asthma') || lower.includes('copd')) return '🫁';
+            if (lower.includes('kidney')) return '🫘';
+            if (lower.includes('liver') || lower.includes('hepatitis') || lower.includes('cirrhosis')) return '🫀';
+            if (lower.includes('brain') || lower.includes('alzheimer') || lower.includes('parkinson')) return '🧠';
+            if (lower.includes('arthritis') || lower.includes('lupus')) return '🦴';
+            if (lower.includes('depression') || lower.includes('anxiety')) return '🧘';
+            if (lower.includes('thyroid')) return '🦋';
+            if (lower.includes('stroke')) return '⚡';
+            if (lower.includes('anemia')) return '🩸';
+            if (lower.includes('skin') || lower.includes('eczema') || lower.includes('psoriasis')) return '🧴';
+            return '🏥';
+        }
+
+        document.getElementById('diseaseStatCard').addEventListener('click', showDiseasesModal);
+
+        document.getElementById('btnCloseModal').addEventListener('click', () => {
+            document.getElementById('diseasesModal').style.display = 'none';
+        });
+
+        document.getElementById('diseasesModal').addEventListener('click', (e) => {
+            if (e.target.id === 'diseasesModal') {
+                document.getElementById('diseasesModal').style.display = 'none';
+            }
+        });
+
+        loadDiseasesData();
+
+        document.getElementById('predictionForm').addEventListener('submit', async (e) => {
+            e.preventDefault();
+
+            const checkboxes = document.querySelectorAll('input[name="symptoms"]:checked');
+            const symptoms = Array.from(checkboxes).map(cb => cb.value);
+
+            if (symptoms.length === 0) {
+                showResult('Please select at least one symptom!', 'error');
+                return;
+            }
+
+            const model = document.querySelector('input[name="model"]:checked').value;
+            const topK = parseInt(document.getElementById('topK').value, 10) || 1;
+            const compareMode = document.getElementById('compareMode').checked;
+
+            const loading = document.querySelector('.loading');
+            const resultDiv = document.getElementById('result');
+            
+            loading.style.display = 'block';
+            resultDiv.style.display = 'none';
+
+            try {
+                const endpoint = compareMode ? '/predict/compare' : '/predict';
+                const payload = {
+                    symptoms: symptoms,
+                    model: model,
+                    top_k: topK
+                };
+
+                const response = await fetch(endpoint, {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json',
+                    },
+                    body: JSON.stringify(payload)
+                });
+
+                const data = await response.json();
+                loading.style.display = 'none';
+
+                if (response.ok) {
+                    const symptomsList = symptoms.map(titleizeSymptom).join(', ');
+                    
+                    if (compareMode) {
+                        const rf = data?.comparison?.random_forest || {};
+                        const nb = data?.comparison?.naive_bayes || {};
+                        
+                        showResult(`
+                            <h3>🧪 Model Comparison</h3>
+                            <p><strong>Your Symptoms:</strong> ${symptomsList}</p>
+                            <div class="compare-grid">
+                                <div class="model-card">
+                                    <div class="badge">Random Forest 🌲</div>
+                                    <p><strong>Disease:</strong> ${escapeHtml(rf.disease || '-')}</p>
+                                    <p><strong>Confidence:</strong> ${escapeHtml(rf.confidence || '-')}</p>
+                                    <p class="muted">${getConfidenceTip(rf.confidence || '0')}</p>
+                                </div>
+                                <div class="model-card">
+                                    <div class="badge">Naive Bayes 📊</div>
+                                    <p><strong>Disease:</strong> ${escapeHtml(nb.disease || '-')}</p>
+                                    <p><strong>Confidence:</strong> ${escapeHtml(nb.confidence || '-')}</p>
+                                    <p class="muted">${getConfidenceTip(nb.confidence || '0')}</p>
+                                </div>
+                            </div>
+                        `, 'success');
+                    } else {
+                        const ranked = Array.isArray(data.top_k) ? data.top_k : [];
+                        const rankedHtml = ranked.length > 1
+                            ? `
+                                <p style="margin-top: 10px;"><strong>Top ${ranked.length} candidates:</strong></p>
+                                <ol class="ranked-list">
+                                    ${ranked.map((r) => `<li>${escapeHtml(r.disease)} — ${escapeHtml(r.confidence)}</li>`).join('')}
+                                </ol>
+                            `
+                            : '';
+
+                        const unknown = Array.isArray(data.unknown_symptoms) ? data.unknown_symptoms : [];
+                        const unknownHtml = unknown.length
+                            ? `<p class="muted" style="margin-top:10px;"><strong>Unknown symptoms ignored:</strong> ${escapeHtml(unknown.join(', '))}</p>`
+                            : '';
+
+                        showResult(`
+                            <h3>🎯 Prediction Result</h3>
+                            <p><strong>Your Symptoms:</strong> ${symptomsList}</p>
+                            <p><strong>Predicted Disease:</strong> ${data.disease}</p>
+                            <p><strong>Confidence:</strong> ${data.confidence}</p>
+                            <p><strong>Model Used:</strong> ${data.model_used === 'random_forest' ? 'Random Forest 🌲' : 'Naive Bayes 📊'}</p>
+                            ${rankedHtml}
+                            ${unknownHtml}
+                            <p style="margin-top: 15px; padding: 10px; background: #fff3cd; border-radius: 5px; font-size: 0.9em;">
+                                💡 <strong>Tip:</strong> ${getConfidenceTip(data.confidence)}
+                            </p>
+                        `, 'success');
+                    }
+                } else {
+                    showResult(`Error: ${data.error}`, 'error');
+                }
+            } catch (error) {
+                loading.style.display = 'none';
+                showResult('Failed to connect to the server. Make sure the API is running!', 'error');
+            }
+        });
+
+        function showResult(html, type) {
+            const resultDiv = document.getElementById('result');
+            resultDiv.innerHTML = html;
+            resultDiv.className = `result ${type}`;
+            resultDiv.style.display = 'block';
+        }
+
+        function getConfidenceTip(confidence) {
+            const conf = parseFloat(confidence);
+            if (conf >= 70) {
+                return 'High confidence! The model is quite sure about this prediction.';
+            } else if (conf >= 50) {
+                return 'Moderate confidence. Consider adding more symptoms for better accuracy.';
+            } else {
+                return 'Low confidence. Try selecting more symptoms to get a better prediction!';
+            }
+        }
+    </script>
+</body>
+</html>

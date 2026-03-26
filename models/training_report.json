@@ -1,0 +1,27 @@
+{
+  "generated_at_utc": "2026-03-26T19:51:52.665275+00:00",
+  "dataset": {
+    "path": "C:\\Users\\moham\\Desktop\\Disease project\\data\\disease_symptoms.csv",
+    "rows": 4240,
+    "num_symptoms": 123,
+    "num_diseases": 53
+  },
+  "split": {
+    "test_size": 0.2,
+    "random_state": 42,
+    "train_rows": 3392,
+    "test_rows": 848
+  },
+  "models": {
+    "naive_bayes": {
+      "accuracy": 0.9445754716981132,
+      "macro_f1": 0.9429997929335826,
+      "weighted_f1": 0.9444561167474416
+    },
+    "random_forest": {
+      "accuracy": 0.9386792452830188,
+      "macro_f1": 0.936947906488178,
+      "weighted_f1": 0.9388580849505239
+    }
+  }
+}
