@@ -392,22 +392,22 @@ def generate_dataset(rows_per_disease: int = 80, seed: int = 42) -> pd.DataFrame
         for _ in range(rows_per_disease):
             x = np.zeros(len(all_symptoms), dtype=np.int8)
 
-            # Core symptoms: very likely (but not always)
+            # Core symptoms: very likely (increased from 0.85 to 0.92)
             for s in core:
-                if rng.random() < 0.85:
+                if rng.random() < 0.92:
                     x[symptom_index[s]] = 1
 
-            # Optional symptoms: sometimes
+            # Optional symptoms: sometimes (reduced from 0.35 to 0.25)
             for s in optional:
-                if rng.random() < 0.35:
+                if rng.random() < 0.25:
                     x[symptom_index[s]] = 1
 
-            # Noise: random unrelated symptoms (small chance)
-            noise_count = int(rng.integers(0, 3))
+            # Noise: random unrelated symptoms (reduced from 0.10 to 0.05)
+            noise_count = int(rng.integers(0, 2))
             if noise_count > 0:
                 noise_symptoms = rng.choice(all_symptoms, size=noise_count, replace=False)
                 for s in noise_symptoms:
-                    if rng.random() < 0.10:
+                    if rng.random() < 0.05:
                         x[symptom_index[s]] = 1
 
             row: dict[str, int | str] = {sym: int(x[i]) for sym, i in symptom_index.items()}
@@ -420,7 +420,7 @@ def generate_dataset(rows_per_disease: int = 80, seed: int = 42) -> pd.DataFrame
 
 
 if __name__ == "__main__":
-    df = generate_dataset(rows_per_disease=80, seed=42)  # 80 * num_diseases rows
+    df = generate_dataset(rows_per_disease=120, seed=42)  # Increased from 80 to 120
     df.to_csv(OUT_PATH, index=False)
 
     print("Dataset created successfully!")
