@@ -11,9 +11,7 @@ AI-powered disease prediction system using machine learning. Predict diseases ba
 - **Top-K Predictions** - see multiple possible diseases ranked by confidence
 - **94%+ Accuracy** on test data
 
-## 🚀 Live Demo
 
-[Coming soon - Deploy on Vercel]
 
 ## 📊 Diseases Covered
 
@@ -80,12 +78,12 @@ This is an educational project. Always consult healthcare professionals for medi
 
 ## 📄 License
 
-MIT License
+NO License
 
 ## 👨‍💻 Author
 
-Mohamed Bashir
+Mohamed Bashir Nuh 
 
 ---
 
-Made with ❤️ using Flask and Machine Learning
+Made with Mohamed Bashir Nuh❤️
