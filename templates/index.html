@@ -12,19 +12,28 @@
         }
 
         body {
-            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            font-family: 'Inter', 'Segoe UI', system-ui, sans-serif;
+            background: #0f0f23;
+            background-image: 
+                radial-gradient(circle at 20% 80%, #1e40af 0%, transparent 50%),
+                radial-gradient(circle at 80% 20%, #7c3aed 0%, transparent 50%),
+                radial-gradient(circle at 40% 40%, #059669 0%, transparent 50%);
             min-height: 100vh;
             display: flex;
             justify-content: center;
             align-items: flex-start;
             padding: 20px;
+            color: #e2e8f0;
         }
 
         .container {
-            background: white;
-            border-radius: 20px;
-            box-shadow: 0 20px 60px rgba(0, 0, 0, 0.3);
+            background: rgba(15, 23, 42, 0.8);
+            backdrop-filter: blur(20px);
+            border: 1px solid rgba(148, 163, 184, 0.2);
+            border-radius: 24px;
+            box-shadow: 
+                0 25px 50px -12px rgba(0, 0, 0, 0.5),
+                0 0 0 1px rgba(255, 255, 255, 0.05);
             max-width: 980px;
             width: 100%;
             padding: 40px;
@@ -32,17 +41,23 @@
         }
 
         h1 {
-            color: #667eea;
+            background: linear-gradient(135deg, #60a5fa, #a78bfa, #34d399);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
             text-align: center;
             margin-bottom: 10px;
-            font-size: 2.5em;
+            font-size: 2.8em;
+            font-weight: 800;
+            letter-spacing: -0.02em;
         }
 
         .subtitle {
             text-align: center;
-            color: #666;
+            color: #94a3b8;
             margin-bottom: 30px;
             font-size: 1.1em;
+            font-weight: 400;
         }
 
         .layout {
@@ -55,38 +70,65 @@
         .stats-grid {
             display: grid;
             grid-template-columns: repeat(4, minmax(0, 1fr));
-            gap: 12px;
-            margin-bottom: 20px;
+            gap: 16px;
+            margin-bottom: 24px;
         }
 
         .stat-card {
-            background: linear-gradient(180deg, #f8f9ff 0%, #ffffff 100%);
-            border: 1px solid #e8ebff;
-            border-radius: 12px;
-            padding: 12px;
-            transition: all 0.3s;
+            background: rgba(30, 41, 59, 0.5);
+            backdrop-filter: blur(10px);
+            border: 1px solid rgba(148, 163, 184, 0.2);
+            border-radius: 16px;
+            padding: 20px;
+            transition: all 0.3s ease;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .stat-card::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            height: 2px;
+            background: linear-gradient(90deg, #60a5fa, #a78bfa, #34d399);
+            opacity: 0;
+            transition: opacity 0.3s ease;
         }
 
         .stat-card:hover {
-            transform: translateY(-2px);
-            box-shadow: 0 8px 18px rgba(102, 126, 234, 0.15);
+            transform: translateY(-4px);
+            box-shadow: 0 20px 40px rgba(0, 0, 0, 0.3);
+            border-color: rgba(96, 165, 250, 0.5);
+            background: rgba(30, 41, 59, 0.7);
+        }
+
+        .stat-card:hover::before {
+            opacity: 1;
         }
 
         #diseaseStatCard:hover {
-            background: linear-gradient(180deg, #e8ebff 0%, #f8f9ff 100%);
-            border-color: #667eea;
+            background: rgba(30, 41, 59, 0.8);
+            border-color: #60a5fa;
         }
 
         .stat-title {
             font-size: 0.85em;
-            color: #566;
-            margin-bottom: 6px;
+            color: #94a3b8;
+            margin-bottom: 8px;
+            font-weight: 500;
+            text-transform: uppercase;
+            letter-spacing: 0.05em;
         }
 
         .stat-value {
-            font-size: 1.25em;
-            font-weight: 800;
-            color: #2f3ca8;
+            font-size: 1.6em;
+            font-weight: 700;
+            background: linear-gradient(135deg, #60a5fa, #a78bfa);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
         }
 
         .symptoms-section {
@@ -94,9 +136,10 @@
         }
 
         .symptoms-section h2 {
-            color: #333;
+            color: #f1f5f9;
             margin-bottom: 15px;
             font-size: 1.3em;
+            font-weight: 600;
         }
 
         .symptoms-toolbar {
@@ -110,40 +153,59 @@
         .symptoms-toolbar input[type="text"] {
             flex: 1;
             min-width: 220px;
-            padding: 12px 12px;
-            border-radius: 10px;
-            border: 1px solid #dee2e6;
-            background: #f8f9fa;
+            padding: 12px 16px;
+            border-radius: 12px;
+            border: 1px solid rgba(148, 163, 184, 0.3);
+            background: rgba(51, 65, 85, 0.3);
+            backdrop-filter: blur(10px);
             outline: none;
+            color: #e2e8f0;
+        }
+
+        .symptoms-toolbar input[type="text"]::placeholder {
+            color: #94a3b8;
+        }
+
+        .symptoms-toolbar input[type="text"]:focus {
+            border-color: #60a5fa;
+            box-shadow: 0 0 0 3px rgba(96, 165, 250, 0.1);
         }
 
         .btn {
-            padding: 10px 12px;
-            border-radius: 10px;
-            border: 1px solid #dee2e6;
-            background: white;
+            padding: 12px 18px;
+            border-radius: 12px;
+            border: 1px solid rgba(148, 163, 184, 0.3);
+            background: rgba(51, 65, 85, 0.3);
+            backdrop-filter: blur(10px);
             cursor: pointer;
-            transition: all 0.2s;
-            font-weight: 600;
+            transition: all 0.3s ease;
+            font-weight: 500;
+            color: #e2e8f0;
         }
 
         .btn:hover {
-            transform: translateY(-1px);
-            box-shadow: 0 8px 18px rgba(0, 0, 0, 0.08);
+            transform: translateY(-2px);
+            box-shadow: 0 8px 25px rgba(96, 165, 250, 0.2);
+            border-color: #60a5fa;
+            background: rgba(51, 65, 85, 0.5);
         }
 
         .panel {
-            background: #ffffff;
-            border: 1px solid #eef0f3;
-            border-radius: 16px;
-            padding: 16px;
+            background: rgba(30, 41, 59, 0.4);
+            backdrop-filter: blur(10px);
+            border: 1px solid rgba(148, 163, 184, 0.2);
+            border-radius: 20px;
+            padding: 24px;
+            box-shadow: 0 8px 32px rgba(0, 0, 0, 0.2);
         }
 
         .symptoms-panel {
-            background: #fbfbfd;
-            border: 1px solid #eef0f3;
-            border-radius: 16px;
-            padding: 14px;
+            background: rgba(30, 41, 59, 0.4);
+            backdrop-filter: blur(10px);
+            border: 1px solid rgba(148, 163, 184, 0.2);
+            border-radius: 20px;
+            padding: 24px;
+            box-shadow: 0 8px 32px rgba(0, 0, 0, 0.2);
         }
 
         .symptoms-scroll {
@@ -161,18 +223,20 @@
         .symptom-checkbox {
             display: flex;
             align-items: center;
-            padding: 12px;
-            background: #f8f9fa;
-            border-radius: 8px;
+            padding: 14px;
+            background: rgba(51, 65, 85, 0.3);
+            border-radius: 12px;
             cursor: pointer;
-            transition: all 0.3s;
-            border: 1px solid transparent;
+            transition: all 0.3s ease;
+            border: 1px solid rgba(148, 163, 184, 0.2);
+            color: #e2e8f0;
         }
 
         .symptom-checkbox:hover {
-            background: #e9ecef;
+            background: rgba(51, 65, 85, 0.5);
             transform: translateY(-2px);
-            border-color: #dde2ff;
+            border-color: #60a5fa;
+            box-shadow: 0 8px 25px rgba(96, 165, 250, 0.2);
         }
 
         .symptom-checkbox input[type="checkbox"] {
@@ -193,9 +257,10 @@
         }
 
         .model-section h2 {
-            color: #333;
+            color: #f1f5f9;
             margin-bottom: 15px;
             font-size: 1.3em;
+            font-weight: 600;
         }
 
         .model-options {
@@ -231,36 +296,62 @@
         }
 
         .topk-section h2 {
-            color: #333;
+            color: #f1f5f9;
             margin-bottom: 10px;
             font-size: 1.1em;
+            font-weight: 600;
         }
 
         .topk-section select {
             width: 100%;
             padding: 12px;
-            border-radius: 10px;
-            border: 1px solid #dee2e6;
-            background: #f8f9fa;
+            border-radius: 12px;
+            border: 1px solid rgba(148, 163, 184, 0.3);
+            background: rgba(51, 65, 85, 0.3);
+            backdrop-filter: blur(10px);
             font-size: 1em;
+            color: #e2e8f0;
+        }
+
+        .topk-section select option {
+            background: #1e293b;
+            color: #e2e8f0;
         }
 
         .predict-btn {
             width: 100%;
-            padding: 15px;
-            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            padding: 18px;
+            background: linear-gradient(135deg, #1e40af 0%, #7c3aed 50%, #059669 100%);
             color: white;
             border: none;
-            border-radius: 10px;
-            font-size: 1.2em;
-            font-weight: bold;
+            border-radius: 16px;
+            font-size: 1.1em;
+            font-weight: 600;
             cursor: pointer;
-            transition: all 0.3s;
+            transition: all 0.3s ease;
+            box-shadow: 0 8px 32px rgba(30, 64, 175, 0.3);
+            position: relative;
+            overflow: hidden;
+        }
+
+        .predict-btn::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: -100%;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.2), transparent);
+            transition: left 0.5s;
         }
 
         .predict-btn:hover {
-            transform: translateY(-2px);
-            box-shadow: 0 10px 20px rgba(102, 126, 234, 0.4);
+            transform: translateY(-3px);
+            box-shadow: 0 15px 40px rgba(30, 64, 175, 0.4);
+        }
+
+        .predict-btn:hover::before {
+            left: 100%;
         }
 
         .predict-btn:active {
@@ -271,11 +362,31 @@
             display: flex;
             align-items: center;
             gap: 10px;
-            margin: 14px 0;
-            background: #f7f8ff;
-            border: 1px solid #e1e5ff;
-            border-radius: 10px;
-            padding: 10px 12px;
+            padding: 12px;
+            background: rgba(51, 65, 85, 0.3);
+            border-radius: 12px;
+            border: 1px solid rgba(148, 163, 184, 0.2);
+            cursor: pointer;
+            backdrop-filter: blur(10px);
+            transition: all 0.3s ease;
+            color: #e2e8f0;
+        }
+
+        .compare-toggle:hover {
+            background: rgba(51, 65, 85, 0.5);
+            border-color: #60a5fa;
+            transform: translateY(-1px);
+        }
+
+        .compare-toggle input[type="checkbox"] {
+            width: 18px;
+            height: 18px;
+            accent-color: #60a5fa;
+        }
+
+        .compare-toggle span {
+            color: #e2e8f0;
+            font-weight: 500;
         }
 
         .result {
@@ -298,28 +409,35 @@
         }
 
         .result.success {
-            background: #d4edda;
-            border: 2px solid #28a745;
+            background: rgba(16, 185, 129, 0.1);
+            border: 2px solid rgba(16, 185, 129, 0.3);
+            color: #e2e8f0;
+            backdrop-filter: blur(10px);
         }
 
         .result.error {
-            background: #f8d7da;
-            border: 2px solid #dc3545;
+            background: rgba(239, 68, 68, 0.1);
+            border: 2px solid rgba(239, 68, 68, 0.3);
+            color: #e2e8f0;
+            backdrop-filter: blur(10px);
         }
 
         .result h3 {
             margin-bottom: 10px;
             font-size: 1.5em;
+            color: #f1f5f9;
         }
 
         .result p {
             margin: 5px 0;
             font-size: 1.1em;
+            color: #e2e8f0;
         }
 
         .ranked-list {
             margin-top: 10px;
             padding-left: 18px;
+            color: #e2e8f0;
         }
         
         .compare-grid {
@@ -330,36 +448,40 @@
         }
 
         .model-card {
-            background: #ffffff;
-            border: 1px solid #e6e9f6;
-            border-radius: 10px;
-            padding: 10px;
+            background: rgba(30, 41, 59, 0.6);
+            border: 1px solid rgba(148, 163, 184, 0.3);
+            border-radius: 12px;
+            padding: 20px;
+            backdrop-filter: blur(10px);
         }
 
         .badge {
             display: inline-block;
-            font-size: 0.8em;
+            font-size: 0.9em;
             font-weight: 700;
-            border-radius: 999px;
-            padding: 4px 8px;
-            background: #eef2ff;
-            color: #2f3ca8;
-            margin-bottom: 8px;
+            border-radius: 20px;
+            padding: 8px 16px;
+            background: linear-gradient(135deg, rgba(96, 165, 250, 0.2), rgba(167, 139, 250, 0.2));
+            color: #60a5fa;
+            margin-bottom: 12px;
+            border: 1px solid rgba(96, 165, 250, 0.3);
         }
 
         .muted {
-            color: #666;
+            color: #94a3b8;
             font-size: 0.95em;
         }
 
         .pill {
             display: inline-block;
-            padding: 6px 10px;
-            border-radius: 999px;
-            background: #f1f3ff;
-            color: #3b49df;
-            font-weight: 700;
+            padding: 8px 16px;
+            border-radius: 25px;
+            background: linear-gradient(135deg, rgba(96, 165, 250, 0.2), rgba(167, 139, 250, 0.2));
+            color: #60a5fa;
+            font-weight: 600;
             font-size: 0.9em;
+            border: 1px solid rgba(96, 165, 250, 0.3);
+            backdrop-filter: blur(10px);
         }
 
         .loading {
@@ -369,8 +491,8 @@
         }
 
         .spinner {
-            border: 4px solid #f3f3f3;
-            border-top: 4px solid #667eea;
+            border: 4px solid #f1f5f9;
+            border-top: 4px solid #3b82f6;
             border-radius: 50%;
             width: 40px;
             height: 40px;
@@ -421,12 +543,20 @@
         </div>
 
         <div id="diseasesModal" style="display: none; position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: rgba(0,0,0,0.5); z-index: 1000; overflow: auto;">
-            <div style="background: white; margin: 40px auto; max-width: 900px; border-radius: 20px; padding: 40px; position: relative; box-shadow: 0 20px 60px rgba(0,0,0,0.3);">
-                <button id="btnCloseModal" style="position: absolute; top: 20px; right: 20px; background: #f8f9fa; border: 1px solid #dee2e6; border-radius: 50%; width: 40px; height: 40px; font-size: 24px; cursor: pointer; line-height: 1; transition: all 0.2s;">×</button>
-                <h2 style="color: #667eea; margin-bottom: 10px; font-size: 1.8em;">📋 All Diseases in Database</h2>
-                <p id="diseaseCount" style="color: #666; margin-bottom: 15px; font-size: 1.1em;">Loading diseases...</p>
-                <input id="diseaseSearch" type="text" placeholder="🔍 Search diseases..." style="width: 100%; padding: 12px 16px; border-radius: 10px; border: 1px solid #dee2e6; background: #f8f9fa; font-size: 1em; margin-bottom: 20px; outline: none;" />
+            <div style="background: rgba(30, 41, 59, 0.8); margin: 40px auto; max-width: 900px; border-radius: 20px; padding: 40px; position: relative; box-shadow: 0 20px 60px rgba(0,0,0,0.5); backdrop-filter: blur(20px); border: 1px solid rgba(148, 163, 184, 0.2);">
+                <button id="btnCloseModal" style="position: absolute; top: 20px; right: 20px; background: rgba(51, 65, 85, 0.5); border: 1px solid rgba(148, 163, 184, 0.3); border-radius: 50%; width: 40px; height: 40px; font-size: 24px; cursor: pointer; line-height: 1; transition: all 0.2s; color: #e2e8f0; backdrop-filter: blur(10px);">×</button>
+                <h2 style="color: #f1f5f9; margin-bottom: 10px; font-size: 1.8em;">📋 All Diseases in Database</h2>
+                <p id="diseaseCount" style="color: #94a3b8; margin-bottom: 15px; font-size: 1.1em;">Loading diseases...</p>
+                <input id="diseaseSearch" type="text" placeholder="🔍 Search diseases..." style="width: 100%; padding: 12px 16px; border-radius: 10px; border: 1px solid rgba(148, 163, 184, 0.3); background: rgba(51, 65, 85, 0.3); font-size: 1em; margin-bottom: 20px; outline: none; color: #e2e8f0; backdrop-filter: blur(10px);" />
                 <div id="diseasesList" style="display: grid; grid-template-columns: repeat(auto-fill, minmax(220px, 1fr)); gap: 10px; max-height: 500px; overflow-y: auto; padding: 10px;"></div>
+            </div>
+        </div>
+
+        <!-- Results Modal -->
+        <div id="resultsModal" style="display: none; position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: rgba(0,0,0,0.8); z-index: 1000; overflow: auto; backdrop-filter: blur(5px);">
+            <div style="background: rgba(15, 23, 42, 0.95); margin: 30px auto; max-width: 700px; border-radius: 24px; padding: 40px; position: relative; box-shadow: 0 25px 50px rgba(0,0,0,0.5); backdrop-filter: blur(20px); border: 1px solid rgba(148, 163, 184, 0.2); transform: scale(0.9); opacity: 0; transition: all 0.3s ease;">
+                <button id="btnCloseResults" style="position: absolute; top: 20px; right: 25px; background: rgba(51, 65, 85, 0.5); border: 1px solid rgba(148, 163, 184, 0.3); border-radius: 50%; width: 40px; height: 40px; font-size: 24px; cursor: pointer; line-height: 1; transition: all 0.2s; color: #e2e8f0; backdrop-filter: blur(10px);">×</button>
+                <div id="resultsContent"></div>
             </div>
         </div>
 
@@ -448,23 +578,31 @@
                         <div id="symptomsGrid" class="symptoms-grid"></div>
                     </div>
 
-                    <p id="symptomsHint" class="muted" style="margin-top: 10px;">Loading symptoms from the model...</p>
+                    <p id="symptomsHint" class="muted" style="margin-top: 10px; color: #94a3b8;">Loading symptoms from the model...</p>
                 </div>
 
                 <div class="panel">
                     <div class="model-section">
                         <h2>Model</h2>
                         <div class="model-options">
-                            <div class="model-option">
-                                <input type="radio" id="rf" name="model" value="random_forest" checked>
-                                <label for="rf">🌲 Random Forest</label>
+                            <div class="model-option" onclick="selectModel('random_forest')" id="rf-option" style="background: rgba(96, 165, 250, 0.2); border: 2px solid #60a5fa; color: #e2e8f0; backdrop-filter: blur(10px);">
+                                <div style="display: flex; align-items: center; justify-content: center; gap: 8px;">
+                                    <div style="width: 16px; height: 16px; border-radius: 50%; background: #60a5fa; display: flex; align-items: center; justify-content: center;">
+                                        <div style="width: 8px; height: 8px; border-radius: 50%; background: white;"></div>
+                                    </div>
+                                    <span>🌲 Random Forest</span>
+                                </div>
+                                <small style="color: #94a3b8; margin-top: 4px;">97.09%</small>
                             </div>
-                            <div class="model-option">
-                                <input type="radio" id="nb" name="model" value="naive_bayes">
-                                <label for="nb">📊 Naive Bayes</label>
+                            <div class="model-option" onclick="selectModel('naive_bayes')" id="nb-option" style="background: rgba(51, 65, 85, 0.3); border: 2px solid rgba(148, 163, 184, 0.2); color: #e2e8f0; backdrop-filter: blur(10px);">
+                                <div style="display: flex; align-items: center; justify-content: center; gap: 8px;">
+                                    <div style="width: 16px; height: 16px; border-radius: 50%; border: 2px solid #94a3b8;"></div>
+                                    <span>📊 Naive Bayes</span>
+                                </div>
+                                <small style="color: #94a3b8; margin-top: 4px;">97.72%</small>
                             </div>
                         </div>
-                        <p class="muted" style="margin-top:10px;">Tip: Try both models and compare Top‑K.</p>
+                        <p class="muted" style="margin-top:10px; color: #94a3b8;">Tip: Try both models and compare Top‑K.</p>
                     </div>
 
                     <div class="topk-section">
@@ -476,9 +614,9 @@
                         </select>
                     </div>
                     
-                    <label class="compare-toggle">
-                        <input id="compareMode" type="checkbox" />
-                        <span>Compare both models side-by-side</span>
+                    <label class="compare-toggle" style="display: flex; align-items: center; gap: 10px; padding: 12px; background: rgba(51, 65, 85, 0.3); border-radius: 12px; border: 1px solid rgba(148, 163, 184, 0.2); cursor: pointer; backdrop-filter: blur(10px); transition: all 0.3s ease; margin-bottom: 20px;">
+                        <input id="compareMode" type="checkbox" style="width: 18px; height: 18px; accent-color: #60a5fa;" />
+                        <span style="color: #e2e8f0; font-weight: 500;">Compare both models side-by-side</span>
                     </label>
 
                     <button type="submit" class="predict-btn">Predict Disease</button>
@@ -618,6 +756,7 @@
                 updateSelectedCount();
             } catch (e) {
                 hint.textContent = `Could not load symptoms. Make sure the API is running and models are trained. (${e.message})`;
+                hint.style.color = '#ef4444';
             }
         }
         
@@ -647,6 +786,41 @@
 
         loadSymptomsFromServer();
         loadStatsFromServer();
+
+        let selectedModel = 'random_forest';
+
+        function selectModel(model) {
+            selectedModel = model;
+            
+            // Update visual selection
+            const rfOption = document.getElementById('rf-option');
+            const nbOption = document.getElementById('nb-option');
+            
+            if (model === 'random_forest') {
+                rfOption.style.background = 'rgba(96, 165, 250, 0.2)';
+                rfOption.style.borderColor = '#60a5fa';
+                rfOption.querySelector('div > div').style.background = '#60a5fa';
+                rfOption.querySelector('div > div').innerHTML = '<div style="width: 8px; height: 8px; border-radius: 50%; background: white;"></div>';
+                
+                nbOption.style.background = 'rgba(51, 65, 85, 0.3)';
+                nbOption.style.borderColor = 'rgba(148, 163, 184, 0.2)';
+                nbOption.querySelector('div > div').style.background = 'transparent';
+                nbOption.querySelector('div > div').style.border = '2px solid #94a3b8';
+                nbOption.querySelector('div > div').innerHTML = '';
+            } else {
+                nbOption.style.background = 'rgba(96, 165, 250, 0.2)';
+                nbOption.style.borderColor = '#60a5fa';
+                nbOption.querySelector('div > div').style.background = '#60a5fa';
+                nbOption.querySelector('div > div').style.border = 'none';
+                nbOption.querySelector('div > div').innerHTML = '<div style="width: 8px; height: 8px; border-radius: 50%; background: white;"></div>';
+                
+                rfOption.style.background = 'rgba(51, 65, 85, 0.3)';
+                rfOption.style.borderColor = 'rgba(148, 163, 184, 0.2)';
+                rfOption.querySelector('div > div').style.background = 'transparent';
+                rfOption.querySelector('div > div').style.border = '2px solid #94a3b8';
+                rfOption.querySelector('div > div').innerHTML = '';
+            }
+        }
 
         // Diseases modal functionality
         let allDiseases = [];
@@ -693,9 +867,9 @@
                 list.innerHTML = diseases.map((disease, idx) => {
                     const emoji = getDiseaseEmoji(disease);
                     return `
-                        <div style="background: #f8f9fa; padding: 12px 16px; border-radius: 8px; border: 1px solid #dee2e6; transition: all 0.2s; cursor: default;">
+                        <div style="background: rgba(51, 65, 85, 0.3); padding: 12px 16px; border-radius: 8px; border: 1px solid rgba(148, 163, 184, 0.2); transition: all 0.2s; cursor: default; backdrop-filter: blur(10px);">
                             <span style="font-size: 1.2em;">${emoji}</span>
-                            <span style="margin-left: 8px; font-weight: 500;">${escapeHtml(disease)}</span>
+                            <span style="margin-left: 8px; font-weight: 500; color: #e2e8f0;">${escapeHtml(disease)}</span>
                         </div>
                     `;
                 }).join('');
@@ -753,6 +927,16 @@
             }
         });
 
+        document.getElementById('btnCloseResults').addEventListener('click', () => {
+            document.getElementById('resultsModal').style.display = 'none';
+        });
+
+        document.getElementById('resultsModal').addEventListener('click', (e) => {
+            if (e.target.id === 'resultsModal') {
+                document.getElementById('resultsModal').style.display = 'none';
+            }
+        });
+
         loadDiseasesData();
 
         document.getElementById('predictionForm').addEventListener('submit', async (e) => {
@@ -766,7 +950,7 @@
                 return;
             }
 
-            const model = document.querySelector('input[name="model"]:checked').value;
+            const model = selectedModel; // Use the selectedModel variable instead of radio button
             const topK = parseInt(document.getElementById('topK').value, 10) || 1;
             const compareMode = document.getElementById('compareMode').checked;
 
@@ -803,20 +987,48 @@
                         const nb = data?.comparison?.naive_bayes || {};
                         
                         showResult(`
-                            <h3>🧪 Model Comparison</h3>
-                            <p><strong>Your Symptoms:</strong> ${symptomsList}</p>
-                            <div class="compare-grid">
+                            <div style="text-align: center; margin-bottom: 25px;">
+                                <div style="display: inline-flex; align-items: center; gap: 10px; background: rgba(167, 139, 250, 0.1); padding: 12px 20px; border-radius: 25px; border: 1px solid rgba(167, 139, 250, 0.3);">
+                                    <span style="font-size: 1.5em;">🧪</span>
+                                    <span style="color: #a78bfa; font-weight: 600; font-size: 1.1em;">Model Comparison</span>
+                                </div>
+                            </div>
+                            
+                            <div style="background: rgba(30, 41, 59, 0.3); border-radius: 16px; padding: 20px; margin-bottom: 20px; border: 1px solid rgba(148, 163, 184, 0.2);">
+                                <div style="display: flex; justify-content: space-between; align-items: center; padding: 8px 0;">
+                                    <span style="color: #94a3b8; font-weight: 500;">Your Symptoms:</span>
+                                    <span style="color: #e2e8f0; font-weight: 600;">${symptomsList}</span>
+                                </div>
+                            </div>
+                            
+                            <div class="compare-grid" style="display: grid; grid-template-columns: 1fr 1fr; gap: 15px;">
                                 <div class="model-card">
                                     <div class="badge">Random Forest 🌲</div>
-                                    <p><strong>Disease:</strong> ${escapeHtml(rf.disease || '-')}</p>
-                                    <p><strong>Confidence:</strong> ${escapeHtml(rf.confidence || '-')}</p>
-                                    <p class="muted">${getConfidenceTip(rf.confidence || '0')}</p>
+                                    <div style="display: grid; gap: 8px;">
+                                        <div style="display: flex; justify-content: space-between;">
+                                            <span style="color: #94a3b8;">Disease:</span>
+                                            <span style="color: #60a5fa; font-weight: 600;">${escapeHtml(rf.disease || '-')}</span>
+                                        </div>
+                                        <div style="display: flex; justify-content: space-between;">
+                                            <span style="color: #94a3b8;">Confidence:</span>
+                                            <span style="color: #34d399; font-weight: 600;">${escapeHtml(rf.confidence || '-')}</span>
+                                        </div>
+                                    </div>
+                                    <p style="color: #94a3b8; font-size: 0.9em; margin-top: 10px; font-style: italic;">${getConfidenceTip(rf.confidence || '0')}</p>
                                 </div>
                                 <div class="model-card">
                                     <div class="badge">Naive Bayes 📊</div>
-                                    <p><strong>Disease:</strong> ${escapeHtml(nb.disease || '-')}</p>
-                                    <p><strong>Confidence:</strong> ${escapeHtml(nb.confidence || '-')}</p>
-                                    <p class="muted">${getConfidenceTip(nb.confidence || '0')}</p>
+                                    <div style="display: grid; gap: 8px;">
+                                        <div style="display: flex; justify-content: space-between;">
+                                            <span style="color: #94a3b8;">Disease:</span>
+                                            <span style="color: #60a5fa; font-weight: 600;">${escapeHtml(nb.disease || '-')}</span>
+                                        </div>
+                                        <div style="display: flex; justify-content: space-between;">
+                                            <span style="color: #94a3b8;">Confidence:</span>
+                                            <span style="color: #34d399; font-weight: 600;">${escapeHtml(nb.confidence || '-')}</span>
+                                        </div>
+                                    </div>
+                                    <p style="color: #94a3b8; font-size: 0.9em; margin-top: 10px; font-style: italic;">${getConfidenceTip(nb.confidence || '0')}</p>
                                 </div>
                             </div>
                         `, 'success');
@@ -837,16 +1049,61 @@
                             : '';
 
                         showResult(`
-                            <h3>🎯 Prediction Result</h3>
-                            <p><strong>Your Symptoms:</strong> ${symptomsList}</p>
-                            <p><strong>Predicted Disease:</strong> ${data.disease}</p>
-                            <p><strong>Confidence:</strong> ${data.confidence}</p>
-                            <p><strong>Model Used:</strong> ${data.model_used === 'random_forest' ? 'Random Forest 🌲' : 'Naive Bayes 📊'}</p>
-                            ${rankedHtml}
-                            ${unknownHtml}
-                            <p style="margin-top: 15px; padding: 10px; background: #fff3cd; border-radius: 5px; font-size: 0.9em;">
-                                💡 <strong>Tip:</strong> ${getConfidenceTip(data.confidence)}
-                            </p>
+                            <div style="text-align: center; margin-bottom: 25px;">
+                                <div style="display: inline-flex; align-items: center; gap: 10px; background: rgba(52, 211, 153, 0.1); padding: 12px 20px; border-radius: 25px; border: 1px solid rgba(52, 211, 153, 0.3);">
+                                    <span style="font-size: 1.5em;">🎯</span>
+                                    <span style="color: #34d399; font-weight: 600; font-size: 1.1em;">Prediction Result</span>
+                                </div>
+                            </div>
+                            
+                            <div style="background: rgba(30, 41, 59, 0.3); border-radius: 16px; padding: 20px; margin-bottom: 20px; border: 1px solid rgba(148, 163, 184, 0.2);">
+                                <div style="display: grid; gap: 12px;">
+                                    <div style="display: flex; justify-content: space-between; align-items: center; padding: 8px 0; border-bottom: 1px solid rgba(148, 163, 184, 0.1);">
+                                        <span style="color: #94a3b8; font-weight: 500;">Your Symptoms:</span>
+                                        <span style="color: #e2e8f0; font-weight: 600;">${symptomsList}</span>
+                                    </div>
+                                    <div style="display: flex; justify-content: space-between; align-items: center; padding: 8px 0; border-bottom: 1px solid rgba(148, 163, 184, 0.1);">
+                                        <span style="color: #94a3b8; font-weight: 500;">Predicted Disease:</span>
+                                        <span style="color: #60a5fa; font-weight: 700; font-size: 1.1em;">${data.disease}</span>
+                                    </div>
+                                    <div style="display: flex; justify-content: space-between; align-items: center; padding: 8px 0; border-bottom: 1px solid rgba(148, 163, 184, 0.1);">
+                                        <span style="color: #94a3b8; font-weight: 500;">Confidence:</span>
+                                        <span style="color: #34d399; font-weight: 700; font-size: 1.1em;">${data.confidence}</span>
+                                    </div>
+                                    <div style="display: flex; justify-content: space-between; align-items: center; padding: 8px 0;">
+                                        <span style="color: #94a3b8; font-weight: 500;">Model Used:</span>
+                                        <span style="color: #a78bfa; font-weight: 600;">${data.model_used === 'random_forest' ? 'Random Forest 🌲' : 'Naive Bayes 📊'}</span>
+                                    </div>
+                                </div>
+                            </div>
+                            
+                            ${ranked.length > 1 ? `
+                                <div style="background: rgba(30, 41, 59, 0.3); border-radius: 16px; padding: 20px; margin-bottom: 20px; border: 1px solid rgba(148, 163, 184, 0.2);">
+                                    <h4 style="color: #f1f5f9; margin-bottom: 15px; font-size: 1.1em;">🏆 Top ${ranked.length} Candidates</h4>
+                                    <div style="display: grid; gap: 8px;">
+                                        ${ranked.map((r, index) => `
+                                            <div style="display: flex; justify-content: space-between; align-items: center; padding: 10px; background: rgba(51, 65, 85, 0.3); border-radius: 8px;">
+                                                <span style="color: #e2e8f0; font-weight: 500;">${index + 1}. ${escapeHtml(r.disease)}</span>
+                                                <span style="color: #34d399; font-weight: 600;">${escapeHtml(r.confidence)}</span>
+                                            </div>
+                                        `).join('')}
+                                    </div>
+                                </div>
+                            ` : ''}
+                            
+                            ${unknown.length ? `
+                                <div style="background: rgba(239, 68, 68, 0.1); border-radius: 12px; padding: 15px; margin-bottom: 20px; border: 1px solid rgba(239, 68, 68, 0.3);">
+                                    <p style="color: #fca5a5; font-weight: 500; margin: 0;">
+                                        <strong>⚠️ Unknown symptoms ignored:</strong> ${escapeHtml(unknown.join(', '))}
+                                    </p>
+                                </div>
+                            ` : ''}
+                            
+                            <div style="background: rgba(52, 211, 153, 0.1); border-radius: 12px; padding: 15px; border: 1px solid rgba(52, 211, 153, 0.3);">
+                                <p style="color: #e2e8f0; margin: 0;">
+                                    💡 <strong style="color: #34d399;">Tip:</strong> ${getConfidenceTip(data.confidence)}
+                                </p>
+                            </div>
                         `, 'success');
                     }
                 } else {
@@ -859,10 +1116,17 @@
         });
 
         function showResult(html, type) {
-            const resultDiv = document.getElementById('result');
-            resultDiv.innerHTML = html;
-            resultDiv.className = `result ${type}`;
-            resultDiv.style.display = 'block';
+            const resultsModal = document.getElementById('resultsModal');
+            const resultsContent = document.getElementById('resultsContent');
+            
+            resultsContent.innerHTML = html;
+            resultsModal.style.display = 'block';
+            
+            // Add animation
+            setTimeout(() => {
+                resultsModal.querySelector('div').style.transform = 'scale(1)';
+                resultsModal.querySelector('div').style.opacity = '1';
+            }, 10);
         }
 
         function getConfidenceTip(confidence) {
